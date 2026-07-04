@@ -291,30 +291,82 @@
           <fieldset>
             <legend>Choose a service</legend>
             <div class="booking-options">
-              <button class="booking-choice is-selected" type="button" data-booking-service="90 minute deep tissue massage">
-                <strong>Deep Tissue</strong>
-                <span>90 min - $300</span>
-              </button>
-              <button class="booking-choice" type="button" data-booking-service="60 minute restorative massage">
-                <strong>Restorative</strong>
-                <span>60 min - $200</span>
-              </button>
-              <button class="booking-choice" type="button" data-booking-service="90 minute sports recovery">
-                <strong>Sports Recovery</strong>
-                <span>90 min - $300</span>
-              </button>
-              <button class="booking-choice" type="button" data-booking-service="120 minute custom session">
-                <strong>Custom Session</strong>
-                <span>120 min - $400</span>
-              </button>
+              <article class="booking-choice-card is-selected" data-service-card>
+                <button class="booking-choice is-selected" type="button" data-booking-service="Deep Tissue">
+                  <strong>Deep Tissue</strong>
+                  <span data-choice-summary>90 mins - $300</span>
+                </button>
+                <label class="duration-panel is-visible">
+                  Duration
+                  <select data-duration-select>
+                    <option value="60">60 mins - $200</option>
+                    <option value="90" selected>90 mins - $300</option>
+                    <option value="120">120 mins - $400</option>
+                  </select>
+                </label>
+              </article>
+              <article class="booking-choice-card" data-service-card>
+                <button class="booking-choice" type="button" data-booking-service="Restorative">
+                  <strong>Restorative</strong>
+                  <span data-choice-summary>60 mins - $200</span>
+                </button>
+                <label class="duration-panel">
+                  Duration
+                  <select data-duration-select>
+                    <option value="60" selected>60 mins - $200</option>
+                    <option value="90">90 mins - $300</option>
+                    <option value="120">120 mins - $400</option>
+                  </select>
+                </label>
+              </article>
+              <article class="booking-choice-card" data-service-card>
+                <button class="booking-choice" type="button" data-booking-service="Sports Recovery">
+                  <strong>Sports Recovery</strong>
+                  <span data-choice-summary>90 mins - $300</span>
+                </button>
+                <label class="duration-panel">
+                  Duration
+                  <select data-duration-select>
+                    <option value="60">60 mins - $200</option>
+                    <option value="90" selected>90 mins - $300</option>
+                    <option value="120">120 mins - $400</option>
+                  </select>
+                </label>
+              </article>
+              <article class="booking-choice-card" data-service-card>
+                <button class="booking-choice" type="button" data-booking-service="Custom Session">
+                  <strong>Custom Session</strong>
+                  <span data-choice-summary>120 mins - $400</span>
+                </button>
+                <label class="duration-panel">
+                  Duration
+                  <select data-duration-select>
+                    <option value="60">60 mins - $200</option>
+                    <option value="90">90 mins - $300</option>
+                    <option value="120" selected>120 mins - $400</option>
+                  </select>
+                </label>
+              </article>
             </div>
           </fieldset>
           <fieldset>
             <legend>Preferred time</legend>
-            <div class="time-options">
-              <button class="time-choice is-selected" type="button" data-booking-time="Tuesday at 11:00 AM">Tue 11:00</button>
-              <button class="time-choice" type="button" data-booking-time="Thursday at 4:30 PM">Thu 4:30</button>
-              <button class="time-choice" type="button" data-booking-time="Saturday at 10:00 AM">Sat 10:00</button>
+            <div class="schedule-grid">
+              <label>
+                Day
+                <select data-day-select>
+                  <option value="Monday" selected>Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                </select>
+              </label>
+              <label>
+                Time
+                <select data-time-select></select>
+              </label>
             </div>
           </fieldset>
           <label>
@@ -329,8 +381,8 @@
             Notes
             <textarea name="notes" rows="4" placeholder="Tell us what you are hoping to address."></textarea>
           </label>
-          <input type="hidden" name="session" value="90 minute deep tissue massage" data-selected-service />
-          <input type="hidden" name="time" value="Tuesday at 11:00 AM" data-selected-time />
+          <input type="hidden" name="session" value="Deep Tissue - 90 mins - $300" data-selected-service />
+          <input type="hidden" name="time" value="Monday at 12:00 AM" data-selected-time />
           <button class="button primary" type="submit">Request Appointment</button>
           <a class="button crypto-form-link" href="#crypto-deposit">Pay Crypto Deposit</a>
           <p class="form-status" role="status" data-form-status></p>

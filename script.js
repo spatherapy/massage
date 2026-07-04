@@ -9,15 +9,24 @@ const copyWalletButton = document.querySelector("[data-copy-wallet]");
 const qrImage = document.querySelector("[data-qr-image]");
 const qrCaption = document.querySelector("[data-qr-caption]");
 const networkWarning = document.querySelector("[data-network-warning]");
+const serviceCards = document.querySelectorAll("[data-service-card]");
 const serviceChoices = document.querySelectorAll("[data-booking-service]");
-const timeChoices = document.querySelectorAll("[data-booking-time]");
+const durationSelects = document.querySelectorAll("[data-duration-select]");
+const daySelect = document.querySelector("[data-day-select]");
+const timeSelect = document.querySelector("[data-time-select]");
 const selectedServiceInput = document.querySelector("[data-selected-service]");
 const selectedTimeInput = document.querySelector("[data-selected-time]");
 const bookingConfirmation = document.querySelector("[data-booking-confirmation]");
 const confirmationDetail = document.querySelector("[data-confirmation-detail]");
 let selectedCoin = "BTC";
-let selectedService = "90 minute deep tissue massage";
-let selectedTime = "Tuesday at 11:00 AM";
+let selectedService = "Deep Tissue - 90 mins - $300";
+let selectedTime = "Monday at 12:00 AM";
+
+const durationPrices = {
+  60: 200,
+  90: 300,
+  120: 400,
+};
 
 const coinPayments = {
   BTC: {
@@ -42,6 +51,53 @@ const coinPayments = {
 
 const qrUrl = (value) =>
   `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=${encodeURIComponent(value)}`;
+
+const formatDuration = (duration) =>
+  `${duration} mins - $${durationPrices[duration] || durationPrices[60]}`;
+
+const getActiveServiceCard = () =>
+  document.querySelector("[data-service-card].is-selected") || serviceCards[0];
+
+const updateSelectedService = () => {
+  const activeCard = getActiveServiceCard();
+  const activeChoice = activeCard?.querySelector("[data-booking-service]");
+  const activeDuration = activeCard?.querySelector("[data-duration-select]");
+  const serviceName = activeChoice?.dataset.bookingService || "Deep Tissue";
+  const duration = activeDuration?.value || "90";
+  selectedService = `${serviceName} - ${formatDuration(duration)}`;
+  if (selectedServiceInput) {
+    selectedServiceInput.value = selectedService;
+  }
+};
+
+const updateSelectedTime = () => {
+  const day = daySelect?.value || "Monday";
+  const time = timeSelect?.value || "12:00 AM";
+  selectedTime = `${day} at ${time}`;
+  if (selectedTimeInput) {
+    selectedTimeInput.value = selectedTime;
+  }
+};
+
+const formatTime = (hour, minute) => {
+  const period = hour < 12 ? "AM" : "PM";
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${String(minute).padStart(2, "0")} ${period}`;
+};
+
+const populateTimeSelect = () => {
+  if (!timeSelect || timeSelect.options.length > 0) {
+    return;
+  }
+  for (let hour = 0; hour < 24; hour += 1) {
+    [0, 30].forEach((minute) => {
+      const option = document.createElement("option");
+      option.value = formatTime(hour, minute);
+      option.textContent = option.value;
+      timeSelect.append(option);
+    });
+  }
+};
 
 const updateCoinPayment = () => {
   const payment = coinPayments[selectedCoin] || coinPayments.BTC;
@@ -90,7 +146,7 @@ bookingForm?.addEventListener("submit", (event) => {
     ? `Thanks, ${name}. Your request is ready for deposit.`
     : "Your request is ready for deposit.";
   if (confirmationDetail) {
-    confirmationDetail.textContent = `${service} · ${time}`;
+    confirmationDetail.textContent = `${service} - ${time}`;
   }
   bookingConfirmation?.classList.add("is-visible");
 });
@@ -116,24 +172,36 @@ copyWalletButton?.addEventListener("click", async () => {
 
 serviceChoices.forEach((choice) => {
   choice.addEventListener("click", () => {
-    serviceChoices.forEach((item) => item.classList.remove("is-selected"));
+    serviceCards.forEach((card) => {
+      card.classList.remove("is-selected");
+      card.querySelector("[data-booking-service]")?.classList.remove("is-selected");
+      card.querySelector(".duration-panel")?.classList.remove("is-visible");
+    });
+    const card = choice.closest("[data-service-card]");
+    card?.classList.add("is-selected");
     choice.classList.add("is-selected");
-    selectedService = choice.dataset.bookingService || selectedService;
-    if (selectedServiceInput) {
-      selectedServiceInput.value = selectedService;
+    card?.querySelector(".duration-panel")?.classList.add("is-visible");
+    updateSelectedService();
+  });
+});
+
+durationSelects.forEach((select) => {
+  select.addEventListener("change", () => {
+    const card = select.closest("[data-service-card]");
+    const summary = card?.querySelector("[data-choice-summary]");
+    if (summary) {
+      summary.textContent = formatDuration(select.value);
+    }
+    if (card?.classList.contains("is-selected")) {
+      updateSelectedService();
     }
   });
 });
 
-timeChoices.forEach((choice) => {
-  choice.addEventListener("click", () => {
-    timeChoices.forEach((item) => item.classList.remove("is-selected"));
-    choice.classList.add("is-selected");
-    selectedTime = choice.dataset.bookingTime || selectedTime;
-    if (selectedTimeInput) {
-      selectedTimeInput.value = selectedTime;
-    }
-  });
-});
+daySelect?.addEventListener("change", updateSelectedTime);
+timeSelect?.addEventListener("change", updateSelectedTime);
 
+populateTimeSelect();
+updateSelectedService();
+updateSelectedTime();
 updateCoinPayment();

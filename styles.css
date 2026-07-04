@@ -784,6 +784,11 @@ legend {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.booking-choice-card {
+  display: grid;
+  gap: 10px;
+}
+
 .booking-choice,
 .time-choice {
   background: white;
@@ -794,6 +799,7 @@ legend {
   font: inherit;
   padding: 13px;
   text-align: left;
+  width: 100%;
 }
 
 .booking-choice strong,
@@ -822,6 +828,15 @@ legend {
   color: rgba(255, 250, 242, 0.72);
 }
 
+.duration-panel {
+  display: none;
+  margin-top: -2px;
+}
+
+.duration-panel.is-visible {
+  display: grid;
+}
+
 .time-options {
   display: grid;
   gap: 10px;
@@ -833,6 +848,12 @@ legend {
   font-weight: 850;
   min-height: 48px;
   text-align: center;
+}
+
+.schedule-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 label {
@@ -997,6 +1018,7 @@ textarea {
   .testimonial-grid,
   .booking-progress,
   .booking-options,
+  .schedule-grid,
   .time-options,
   .profile-photo-grid {
     grid-template-columns: 1fr;
