@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pay Deposit | Gianna Massage Therapy</title>
+    <meta
+      name="description"
+      content="Pay the appointment deposit for Gianna Massage Therapy using BTC, ETH, or USDT TRC-20."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html#top" aria-label="Gianna Massage Therapy home">
+        <span class="brand-mark">G</span>
+        <span>
+          <strong>Gianna</strong>
+          <small>Massage Therapy</small>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" data-nav>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#profile">Gianna</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#book">Book</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="section crypto-section deposit-page" id="deposit">
+        <div class="crypto-copy">
+          <p class="eyebrow">Pay deposit</p>
+          <h1>Reserve your appointment with a $100 deposit.</h1>
+          <p>
+            After booking your appointment, choose BTC, ETH, or USDT TRC-20 below. Scan the QR code or copy the wallet address,
+            then send your transaction hash with your appointment confirmation.
+          </p>
+          <p class="payment-note">More payment methods are coming soon.</p>
+          <a class="button secondary" href="index.html#book">Back to Booking</a>
+        </div>
+        <div class="crypto-panel">
+          <div class="deposit-summary">
+            <span>Minimum deposit due today</span>
+            <strong>$100</strong>
+          </div>
+          <div class="coin-grid" aria-label="Accepted cryptocurrency options">
+            <button class="coin-option is-selected" type="button" data-coin="BTC">
+              <span>BTC</span>
+              <small>Bitcoin</small>
+            </button>
+            <button class="coin-option" type="button" data-coin="ETH">
+              <span>ETH</span>
+              <small>Ethereum</small>
+            </button>
+            <button class="coin-option" type="button" data-coin="USDT">
+              <span>USDT</span>
+              <small>Tether TRC-20</small>
+            </button>
+          </div>
+          <div class="crypto-checkout is-visible" data-crypto-checkout>
+            <span>Send deposit to this wallet</span>
+            <strong data-crypto-selection>BTC deposit selected</strong>
+            <div class="qr-wrap">
+              <img
+                data-qr-image
+                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=bitcoin%3A3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ"
+                alt="BTC wallet QR code"
+              />
+              <small data-qr-caption>Scan to send BTC deposit</small>
+            </div>
+            <p>
+              Send at least $100 worth of the selected coin to the wallet address below.
+            </p>
+            <code data-wallet-address>3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ</code>
+            <button class="copy-wallet" type="button" data-copy-wallet>Copy Wallet Address</button>
+          </div>
+          <p class="wallet-note" data-network-warning>
+            Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Gianna Massage Therapy</p>
+      <p>Licensed therapeutic bodywork for everyday recovery.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -29,7 +29,7 @@
         <a href="#approach">Approach</a>
         <a href="#profile">Gianna</a>
         <a href="#pricing">Pricing</a>
-        <a href="#crypto-deposit">Crypto Deposit</a>
+        <a href="deposit.html">Deposit</a>
         <a href="#contact">Contact</a>
         <a class="nav-cta" href="#book">Book</a>
       </nav>
@@ -173,6 +173,10 @@
             </ul>
           </div>
         </div>
+        <div class="section-heading testimonial-heading">
+          <p class="eyebrow">Testimonials</p>
+          <h2>Clients come back for calm, focused care.</h2>
+        </div>
         <div class="testimonial-grid" aria-label="Client testimonials">
           <figure>
             <blockquote>Gianna listens first, then works with the exact pressure my back needs.</blockquote>
@@ -213,58 +217,6 @@
             <strong>$400</strong>
             <a href="#book">Book 120 min</a>
           </article>
-        </div>
-      </section>
-
-      <section class="section crypto-section" id="crypto-deposit">
-        <div class="crypto-copy">
-          <p class="eyebrow">Crypto deposit</p>
-          <h2>Reserve your appointment with a crypto deposit.</h2>
-          <p>
-            Clients can place a minimum $100 deposit in BTC, ETH, or USDT. Final appointment balances are settled at the studio
-            after your therapist confirms the session time.
-          </p>
-        </div>
-        <div class="crypto-panel">
-          <div class="deposit-summary">
-            <span>Minimum deposit due today</span>
-            <strong>$100</strong>
-          </div>
-          <div class="coin-grid" aria-label="Accepted cryptocurrency options">
-            <button class="coin-option is-selected" type="button" data-coin="BTC">
-              <span>BTC</span>
-              <small>Bitcoin</small>
-            </button>
-            <button class="coin-option" type="button" data-coin="ETH">
-              <span>ETH</span>
-              <small>Ethereum</small>
-            </button>
-            <button class="coin-option" type="button" data-coin="USDT">
-              <span>USDT</span>
-              <small>Tether TRC-20</small>
-            </button>
-          </div>
-          <div class="crypto-checkout is-visible" data-crypto-checkout>
-            <span>Send deposit to this wallet</span>
-            <strong data-crypto-selection>BTC deposit selected</strong>
-            <div class="qr-wrap">
-              <img
-                data-qr-image
-                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=bitcoin%3A3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ"
-                alt="BTC wallet QR code"
-              />
-              <small data-qr-caption>Scan to send BTC deposit</small>
-            </div>
-            <p>
-              Send at least $100 worth of the selected coin to the wallet address below, then include your transaction hash in
-              the appointment notes or confirmation message.
-            </p>
-            <code data-wallet-address>3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ</code>
-            <button class="copy-wallet" type="button" data-copy-wallet>Copy Wallet Address</button>
-          </div>
-          <p class="wallet-note" data-network-warning>
-            Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
-          </p>
         </div>
       </section>
 
@@ -384,12 +336,12 @@
           <input type="hidden" name="session" value="Deep Tissue - 90 mins - $300" data-selected-service />
           <input type="hidden" name="time" value="Monday at 12:00 AM" data-selected-time />
           <button class="button primary" type="submit">Request Appointment</button>
-          <a class="button crypto-form-link" href="#crypto-deposit">Pay Crypto Deposit</a>
           <p class="form-status" role="status" data-form-status></p>
           <div class="booking-confirmation" data-booking-confirmation>
             <strong>Appointment request created</strong>
             <span data-confirmation-detail></span>
             <small>Reservation is pending until the $100 crypto deposit is received.</small>
+            <a class="button crypto-form-link deposit-cta" href="deposit.html">Pay Deposit</a>
           </div>
         </form>
       </section>

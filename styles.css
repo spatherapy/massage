@@ -471,6 +471,10 @@ p {
   margin-top: 42px;
 }
 
+.testimonial-heading {
+  margin-top: 56px;
+}
+
 .testimonial-grid figure {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -546,8 +550,28 @@ p {
   max-width: 700px;
 }
 
+.crypto-copy h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.95;
+  margin: 0;
+}
+
 .crypto-copy p:not(.eyebrow) {
   color: rgba(255, 250, 242, 0.74);
+}
+
+.payment-note {
+  border-left: 3px solid #f0c0a8;
+  font-weight: 850;
+  padding-left: 14px;
+}
+
+.deposit-page {
+  min-height: calc(100vh - 84px);
+  padding-top: 128px;
 }
 
 .crypto-panel {
@@ -916,6 +940,11 @@ textarea {
 .booking-confirmation small {
   color: var(--muted);
   line-height: 1.5;
+}
+
+.deposit-cta {
+  justify-self: start;
+  margin-top: 8px;
 }
 
 .crypto-form-link {
