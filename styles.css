@@ -569,6 +569,20 @@ p {
   padding-left: 14px;
 }
 
+.deposit-rules {
+  color: rgba(255, 250, 242, 0.82);
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.deposit-rules li {
+  border-top: 1px solid rgba(255, 250, 242, 0.18);
+  padding-top: 8px;
+}
+
 .deposit-page {
   min-height: calc(100vh - 84px);
   padding-top: 128px;
@@ -603,6 +617,24 @@ p {
   font-size: 56px;
   font-weight: 500;
   line-height: 1;
+}
+
+.payment-proof-form {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 14px;
+  padding-top: 20px;
+}
+
+.payment-proof-form h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.payment-proof-form p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
 }
 
 .coin-grid {
@@ -899,6 +931,10 @@ textarea {
   min-height: 48px;
   padding: 12px 14px;
   width: 100%;
+}
+
+.hidden-field {
+  display: none;
 }
 
 textarea {

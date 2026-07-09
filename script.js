@@ -1,7 +1,9 @@
 const navToggle = document.querySelector("[data-nav-toggle]");
 const nav = document.querySelector("[data-nav]");
 const bookingForm = document.querySelector("[data-booking-form]");
+const paymentProofForm = document.querySelector("[data-payment-proof-form]");
 const formStatus = document.querySelector("[data-form-status]");
+const paymentStatus = document.querySelector("[data-payment-status]");
 const coinOptions = document.querySelectorAll("[data-coin]");
 const cryptoSelection = document.querySelector("[data-crypto-selection]");
 const walletAddress = document.querySelector("[data-wallet-address]");
@@ -16,16 +18,29 @@ const daySelect = document.querySelector("[data-day-select]");
 const timeSelect = document.querySelector("[data-time-select]");
 const selectedServiceInput = document.querySelector("[data-selected-service]");
 const selectedTimeInput = document.querySelector("[data-selected-time]");
+const selectedDepositInput = document.querySelector("[data-selected-deposit]");
+const selectedCoinInput = document.querySelector("[data-selected-coin]");
+const proofDepositInput = document.querySelector("[data-proof-deposit]");
 const bookingConfirmation = document.querySelector("[data-booking-confirmation]");
 const confirmationDetail = document.querySelector("[data-confirmation-detail]");
+const depositNotice = document.querySelector("[data-deposit-notice]");
+const depositLink = document.querySelector("[data-deposit-link]");
+const depositAmountLabels = document.querySelectorAll("[data-deposit-amount]");
 let selectedCoin = "BTC";
 let selectedService = "Deep Tissue - 90 mins - $300";
 let selectedTime = "Monday at 12:00 AM";
+let selectedDeposit = 150;
 
 const durationPrices = {
   60: 200,
   90: 300,
   120: 400,
+};
+
+const durationDeposits = {
+  60: 100,
+  90: 150,
+  120: 200,
 };
 
 const coinPayments = {
@@ -55,6 +70,8 @@ const qrUrl = (value) =>
 const formatDuration = (duration) =>
   `${duration} mins - $${durationPrices[duration] || durationPrices[60]}`;
 
+const formatDeposit = (deposit) => `$${deposit}`;
+
 const getActiveServiceCard = () =>
   document.querySelector("[data-service-card].is-selected") || serviceCards[0];
 
@@ -64,9 +81,24 @@ const updateSelectedService = () => {
   const activeDuration = activeCard?.querySelector("[data-duration-select]");
   const serviceName = activeChoice?.dataset.bookingService || "Deep Tissue";
   const duration = activeDuration?.value || "90";
+  selectedDeposit = durationDeposits[duration] || durationDeposits[90];
   selectedService = `${serviceName} - ${formatDuration(duration)}`;
   if (selectedServiceInput) {
     selectedServiceInput.value = selectedService;
+  }
+  if (selectedDepositInput) {
+    selectedDepositInput.value = formatDeposit(selectedDeposit);
+  }
+  if (depositNotice) {
+    depositNotice.textContent = `Reservation is pending until the ${formatDeposit(selectedDeposit)} deposit is received.`;
+  }
+  if (depositLink) {
+    const params = new URLSearchParams({
+      deposit: String(selectedDeposit),
+      session: selectedService,
+      time: selectedTime,
+    });
+    depositLink.href = `deposit.html?${params.toString()}`;
   }
 };
 
@@ -76,6 +108,22 @@ const updateSelectedTime = () => {
   selectedTime = `${day} at ${time}`;
   if (selectedTimeInput) {
     selectedTimeInput.value = selectedTime;
+  }
+  updateSelectedService();
+};
+
+const updateDepositPageAmount = () => {
+  if (!depositAmountLabels.length) {
+    return;
+  }
+  const params = new URLSearchParams(window.location.search);
+  const deposit = Number(params.get("deposit")) || 100;
+  const safeDeposit = [100, 150, 200].includes(deposit) ? deposit : 100;
+  depositAmountLabels.forEach((label) => {
+    label.textContent = formatDeposit(safeDeposit);
+  });
+  if (proofDepositInput) {
+    proofDepositInput.value = formatDeposit(safeDeposit);
   }
 };
 
@@ -120,6 +168,9 @@ const updateCoinPayment = () => {
   if (copyWalletButton) {
     copyWalletButton.textContent = "Copy Wallet Address";
   }
+  if (selectedCoinInput) {
+    selectedCoinInput.value = selectedCoin;
+  }
 };
 
 navToggle?.addEventListener("click", () => {
@@ -136,19 +187,58 @@ nav?.addEventListener("click", (event) => {
   }
 });
 
-bookingForm?.addEventListener("submit", (event) => {
+bookingForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = new FormData(bookingForm);
   const name = String(data.get("name") || "").trim();
   const service = String(data.get("session") || selectedService);
   const time = String(data.get("time") || selectedTime);
-  formStatus.textContent = name
-    ? `Thanks, ${name}. Your request is ready for deposit.`
-    : "Your request is ready for deposit.";
+  formStatus.textContent = "Sending your appointment request...";
+  if (bookingForm.action) {
+    try {
+      await fetch(bookingForm.action, {
+        method: "POST",
+        body: data,
+        mode: "no-cors",
+      });
+      formStatus.textContent = name
+        ? `Thanks, ${name}. Your request was sent and is ready for deposit.`
+        : "Your request was sent and is ready for deposit.";
+    } catch {
+      formStatus.textContent =
+        "Your request is ready for deposit, but the email notification could not be sent. Please contact Gianna directly.";
+    }
+  } else {
+    formStatus.textContent = name
+      ? `Thanks, ${name}. Your request is ready for deposit.`
+      : "Your request is ready for deposit.";
+  }
   if (confirmationDetail) {
-    confirmationDetail.textContent = `${service} - ${time}`;
+    confirmationDetail.textContent = `${service} - ${time} - Deposit ${formatDeposit(selectedDeposit)}`;
   }
   bookingConfirmation?.classList.add("is-visible");
+});
+
+paymentProofForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const data = new FormData(paymentProofForm);
+  paymentStatus.textContent = "Sending your deposit confirmation...";
+  try {
+    await fetch(paymentProofForm.action, {
+      method: "POST",
+      body: data,
+      mode: "no-cors",
+    });
+    paymentStatus.textContent = "Deposit confirmation sent. Gianna will match it with your appointment.";
+    paymentProofForm.reset();
+    if (selectedCoinInput) {
+      selectedCoinInput.value = selectedCoin;
+    }
+    updateDepositPageAmount();
+  } catch {
+    paymentStatus.textContent =
+      "Deposit confirmation could not be sent. Please send your transaction hash by WhatsApp, SMS, or email.";
+  }
 });
 
 coinOptions.forEach((option) => {
@@ -204,4 +294,5 @@ timeSelect?.addEventListener("change", updateSelectedTime);
 populateTimeSelect();
 updateSelectedService();
 updateSelectedTime();
+updateDepositPageAmount();
 updateCoinPayment();

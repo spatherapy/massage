@@ -36,18 +36,23 @@
       <section class="section crypto-section deposit-page" id="deposit">
         <div class="crypto-copy">
           <p class="eyebrow">Pay deposit</p>
-          <h1>Reserve your appointment with a $100 deposit.</h1>
+          <h1>Reserve your appointment with a <span data-deposit-amount>$100</span> deposit.</h1>
           <p>
             After booking your appointment, choose BTC, ETH, or USDT TRC-20 below. Scan the QR code or copy the wallet address,
-            then send your transaction hash with your appointment confirmation.
+            then submit your transaction hash below.
           </p>
+          <ul class="deposit-rules">
+            <li>60 mins: $100 minimum deposit</li>
+            <li>90 mins: $150 minimum deposit</li>
+            <li>120 mins: $200 minimum deposit</li>
+          </ul>
           <p class="payment-note">More payment methods are coming soon.</p>
           <a class="button secondary" href="index.html#book">Back to Booking</a>
         </div>
         <div class="crypto-panel">
           <div class="deposit-summary">
             <span>Minimum deposit due today</span>
-            <strong>$100</strong>
+            <strong data-deposit-amount>$100</strong>
           </div>
           <div class="coin-grid" aria-label="Accepted cryptocurrency options">
             <button class="coin-option is-selected" type="button" data-coin="BTC">
@@ -75,7 +80,7 @@
               <small data-qr-caption>Scan to send BTC deposit</small>
             </div>
             <p>
-              Send at least $100 worth of the selected coin to the wallet address below.
+              Send at least <span data-deposit-amount>$100</span> worth of the selected coin to the wallet address below.
             </p>
             <code data-wallet-address>3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ</code>
             <button class="copy-wallet" type="button" data-copy-wallet>Copy Wallet Address</button>
@@ -83,6 +88,34 @@
           <p class="wallet-note" data-network-warning>
             Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
           </p>
+          <form
+            class="payment-proof-form"
+            action="https://formsubmit.co/giannajademassageserve@gmail.com"
+            method="POST"
+            data-payment-proof-form
+          >
+            <h2>Confirm your deposit</h2>
+            <p>After sending payment, submit your transaction hash so Gianna can match your deposit to your appointment.</p>
+            <label>
+              Name
+              <input name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Transaction hash
+              <input name="transaction_hash" required />
+            </label>
+            <input type="hidden" name="coin" value="BTC" data-selected-coin />
+            <input type="hidden" name="minimum_deposit" value="$100" data-proof-deposit />
+            <input type="hidden" name="_subject" value="New Gianna Massage Deposit Confirmation" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden-field" />
+            <button class="button primary" type="submit">Submit Deposit Confirmation</button>
+            <p class="form-status" role="status" data-payment-status></p>
+          </form>
         </div>
       </section>
     </main>

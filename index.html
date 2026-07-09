@@ -233,7 +233,12 @@
             <a href="mailto:giannajademassageserve@gmail.com">giannajademassageserve@gmail.com</a>
           </div>
         </div>
-        <form class="booking-form guided-booking" data-booking-form>
+        <form
+          class="booking-form guided-booking"
+          action="https://formsubmit.co/giannajademassageserve@gmail.com"
+          method="POST"
+          data-booking-form
+        >
           <div class="booking-progress" aria-label="Booking steps">
             <span>1. Service</span>
             <span>2. Time</span>
@@ -335,13 +340,17 @@
           </label>
           <input type="hidden" name="session" value="Deep Tissue - 90 mins - $300" data-selected-service />
           <input type="hidden" name="time" value="Monday at 12:00 AM" data-selected-time />
+          <input type="hidden" name="minimum_deposit" value="$150" data-selected-deposit />
+          <input type="hidden" name="_subject" value="New Gianna Massage Booking Request" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden-field" />
           <button class="button primary" type="submit">Request Appointment</button>
           <p class="form-status" role="status" data-form-status></p>
           <div class="booking-confirmation" data-booking-confirmation>
             <strong>Appointment request created</strong>
             <span data-confirmation-detail></span>
-            <small>Reservation is pending until the $100 crypto deposit is received.</small>
-            <a class="button crypto-form-link deposit-cta" href="deposit.html">Pay Deposit</a>
+            <small data-deposit-notice>Reservation is pending until the $150 deposit is received.</small>
+            <a class="button crypto-form-link deposit-cta" href="deposit.html?deposit=150" data-deposit-link>Pay Deposit</a>
           </div>
         </form>
       </section>
