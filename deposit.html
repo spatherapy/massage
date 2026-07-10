@@ -39,7 +39,7 @@
           <h1>Reserve your appointment with a <span data-deposit-amount>$100</span> deposit.</h1>
           <p>
             After booking your appointment, choose BTC, ETH, or USDT TRC-20 below. Scan the QR code or copy the wallet address,
-            then submit your transaction hash below.
+            then keep your transaction hash for your records.
           </p>
           <ul class="deposit-rules">
             <li>60 mins: $100 minimum deposit</li>
@@ -88,30 +88,12 @@
           <p class="wallet-note" data-network-warning>
             Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
           </p>
-          <form
-            class="payment-proof-form"
-            action="#deposit"
-            data-payment-proof-form
-          >
-            <h2>Confirm your deposit</h2>
-            <p>After sending payment, submit your transaction hash so Gianna can match your deposit to your appointment.</p>
-            <label>
-              Name
-              <input name="name" autocomplete="name" required />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" autocomplete="email" required />
-            </label>
-            <label>
-              Transaction hash
-              <input name="transaction_hash" required />
-            </label>
-            <input type="hidden" name="coin" value="BTC" data-selected-coin />
-            <input type="hidden" name="minimum_deposit" value="$100" data-proof-deposit />
-            <button class="button primary" type="submit">Submit Deposit Confirmation</button>
-            <p class="form-status" role="status" data-payment-status></p>
-          </form>
+          <div class="payment-proof-form">
+            <h2>After sending deposit</h2>
+            <p>
+              Save your transaction hash. Gianna may ask for it when confirming your appointment.
+            </p>
+          </div>
         </div>
       </section>
     </main>
