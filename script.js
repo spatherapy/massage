@@ -21,10 +21,12 @@ const selectedTimeInput = document.querySelector("[data-selected-time]");
 const selectedDepositInput = document.querySelector("[data-selected-deposit]");
 const selectedCoinInput = document.querySelector("[data-selected-coin]");
 const proofDepositInput = document.querySelector("[data-proof-deposit]");
+const nextUrlInput = document.querySelector("[data-next-url]");
 const bookingConfirmation = document.querySelector("[data-booking-confirmation]");
 const confirmationDetail = document.querySelector("[data-confirmation-detail]");
 const depositNotice = document.querySelector("[data-deposit-notice]");
 const depositLink = document.querySelector("[data-deposit-link]");
+const thanksDepositLink = document.querySelector("[data-thanks-deposit-link]");
 const depositAmountLabels = document.querySelectorAll("[data-deposit-amount]");
 let selectedCoin = "BTC";
 let selectedService = "Deep Tissue - 90 mins - $300";
@@ -100,6 +102,9 @@ const updateSelectedService = () => {
     });
     depositLink.href = `deposit.html?${params.toString()}`;
   }
+  if (nextUrlInput) {
+    nextUrlInput.value = `https://jukbox9.github.io/Gianna-massage/thanks.html?deposit=${selectedDeposit}`;
+  }
 };
 
 const updateSelectedTime = () => {
@@ -113,9 +118,6 @@ const updateSelectedTime = () => {
 };
 
 const updateDepositPageAmount = () => {
-  if (!depositAmountLabels.length) {
-    return;
-  }
   const params = new URLSearchParams(window.location.search);
   const deposit = Number(params.get("deposit")) || 100;
   const safeDeposit = [100, 150, 200].includes(deposit) ? deposit : 100;
@@ -124,6 +126,9 @@ const updateDepositPageAmount = () => {
   });
   if (proofDepositInput) {
     proofDepositInput.value = formatDeposit(safeDeposit);
+  }
+  if (thanksDepositLink) {
+    thanksDepositLink.href = `deposit.html?deposit=${safeDeposit}`;
   }
 };
 
@@ -187,67 +192,19 @@ nav?.addEventListener("click", (event) => {
   }
 });
 
-bookingForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const data = new FormData(bookingForm);
-  const name = String(data.get("name") || "").trim();
-  const service = String(data.get("session") || selectedService);
-  const time = String(data.get("time") || selectedTime);
-  formStatus.textContent = "Sending your appointment request...";
-  if (bookingForm.action) {
-    try {
-      const response = await fetch(bookingForm.action, {
-        method: "POST",
-        body: data,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Booking notification failed");
-      }
-      formStatus.textContent = name
-        ? `Thanks, ${name}. Your request was sent and is ready for deposit.`
-        : "Your request was sent and is ready for deposit.";
-    } catch {
-      formStatus.textContent =
-        "Your request is ready for deposit, but the email notification could not be sent. Please contact Gianna directly.";
-    }
-  } else {
-    formStatus.textContent = name
-      ? `Thanks, ${name}. Your request is ready for deposit.`
-      : "Your request is ready for deposit.";
+bookingForm?.addEventListener("submit", () => {
+  updateSelectedService();
+  updateSelectedTime();
+  if (formStatus) {
+    formStatus.textContent = "Sending your appointment request...";
   }
-  if (confirmationDetail) {
-    confirmationDetail.textContent = `${service} - ${time} - Deposit ${formatDeposit(selectedDeposit)}`;
-  }
-  bookingConfirmation?.classList.add("is-visible");
 });
 
-paymentProofForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const data = new FormData(paymentProofForm);
-  paymentStatus.textContent = "Sending your deposit confirmation...";
-  try {
-    const response = await fetch(paymentProofForm.action, {
-      method: "POST",
-      body: data,
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Deposit notification failed");
-    }
-    paymentStatus.textContent = "Deposit confirmation sent. Gianna will match it with your appointment.";
-    paymentProofForm.reset();
-    if (selectedCoinInput) {
-      selectedCoinInput.value = selectedCoin;
-    }
-    updateDepositPageAmount();
-  } catch {
-    paymentStatus.textContent =
-      "Deposit confirmation could not be sent. Please send your transaction hash by WhatsApp, SMS, or email.";
+paymentProofForm?.addEventListener("submit", () => {
+  updateCoinPayment();
+  updateDepositPageAmount();
+  if (paymentStatus) {
+    paymentStatus.textContent = "Sending your deposit confirmation...";
   }
 });
 
