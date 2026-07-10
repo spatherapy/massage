@@ -196,11 +196,16 @@ bookingForm?.addEventListener("submit", async (event) => {
   formStatus.textContent = "Sending your appointment request...";
   if (bookingForm.action) {
     try {
-      await fetch(bookingForm.action, {
+      const response = await fetch(bookingForm.action, {
         method: "POST",
         body: data,
-        mode: "no-cors",
+        headers: {
+          Accept: "application/json",
+        },
       });
+      if (!response.ok) {
+        throw new Error("Booking notification failed");
+      }
       formStatus.textContent = name
         ? `Thanks, ${name}. Your request was sent and is ready for deposit.`
         : "Your request was sent and is ready for deposit.";
@@ -224,11 +229,16 @@ paymentProofForm?.addEventListener("submit", async (event) => {
   const data = new FormData(paymentProofForm);
   paymentStatus.textContent = "Sending your deposit confirmation...";
   try {
-    await fetch(paymentProofForm.action, {
+    const response = await fetch(paymentProofForm.action, {
       method: "POST",
       body: data,
-      mode: "no-cors",
+      headers: {
+        Accept: "application/json",
+      },
     });
+    if (!response.ok) {
+      throw new Error("Deposit notification failed");
+    }
     paymentStatus.textContent = "Deposit confirmation sent. Gianna will match it with your appointment.";
     paymentProofForm.reset();
     if (selectedCoinInput) {
