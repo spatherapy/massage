@@ -21,7 +21,6 @@ const selectedTimeInput = document.querySelector("[data-selected-time]");
 const selectedDepositInput = document.querySelector("[data-selected-deposit]");
 const selectedCoinInput = document.querySelector("[data-selected-coin]");
 const proofDepositInput = document.querySelector("[data-proof-deposit]");
-const nextUrlInput = document.querySelector("[data-next-url]");
 const bookingConfirmation = document.querySelector("[data-booking-confirmation]");
 const confirmationDetail = document.querySelector("[data-confirmation-detail]");
 const depositNotice = document.querySelector("[data-deposit-notice]");
@@ -74,6 +73,11 @@ const formatDuration = (duration) =>
 
 const formatDeposit = (deposit) => `$${deposit}`;
 
+const buildMailto = (subject, lines) => {
+  const body = lines.filter(Boolean).join("\n");
+  return `mailto:giannajademassageserve@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
 const getActiveServiceCard = () =>
   document.querySelector("[data-service-card].is-selected") || serviceCards[0];
 
@@ -101,9 +105,6 @@ const updateSelectedService = () => {
       time: selectedTime,
     });
     depositLink.href = `deposit.html?${params.toString()}`;
-  }
-  if (nextUrlInput) {
-    nextUrlInput.value = `https://jukbox9.github.io/Gianna-massage/thanks.html?deposit=${selectedDeposit}`;
   }
 };
 
@@ -192,20 +193,57 @@ nav?.addEventListener("click", (event) => {
   }
 });
 
-bookingForm?.addEventListener("submit", () => {
+bookingForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
   updateSelectedService();
   updateSelectedTime();
+  const data = new FormData(bookingForm);
+  const name = String(data.get("name") || "").trim();
+  const email = String(data.get("email") || "").trim();
+  const notes = String(data.get("notes") || "").trim();
+  const mailto = buildMailto("New Gianna Massage Booking Request", [
+    "New appointment request",
+    "",
+    `Name: ${name}`,
+    `Email: ${email}`,
+    `Session: ${selectedService}`,
+    `Preferred time: ${selectedTime}`,
+    `Minimum deposit: ${formatDeposit(selectedDeposit)}`,
+    notes ? `Notes: ${notes}` : "",
+  ]);
   if (formStatus) {
-    formStatus.textContent = "Sending your appointment request...";
+    formStatus.textContent = "Your email app should open with the appointment request. Send the email, then continue to deposit.";
   }
+  if (confirmationDetail) {
+    confirmationDetail.textContent = `${selectedService} - ${selectedTime} - Deposit ${formatDeposit(selectedDeposit)}`;
+  }
+  bookingConfirmation?.classList.add("is-visible");
+  window.location.href = mailto;
 });
 
-paymentProofForm?.addEventListener("submit", () => {
+paymentProofForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
   updateCoinPayment();
   updateDepositPageAmount();
+  const data = new FormData(paymentProofForm);
+  const name = String(data.get("name") || "").trim();
+  const email = String(data.get("email") || "").trim();
+  const transactionHash = String(data.get("transaction_hash") || "").trim();
+  const coin = String(data.get("coin") || selectedCoin);
+  const minimumDeposit = String(data.get("minimum_deposit") || "$100");
+  const mailto = buildMailto("New Gianna Massage Deposit Confirmation", [
+    "New deposit confirmation",
+    "",
+    `Name: ${name}`,
+    `Email: ${email}`,
+    `Coin: ${coin}`,
+    `Minimum deposit: ${minimumDeposit}`,
+    `Transaction hash: ${transactionHash}`,
+  ]);
   if (paymentStatus) {
-    paymentStatus.textContent = "Sending your deposit confirmation...";
+    paymentStatus.textContent = "Your email app should open with the deposit confirmation. Send the email so Gianna can match the payment.";
   }
+  window.location.href = mailto;
 });
 
 coinOptions.forEach((option) => {
