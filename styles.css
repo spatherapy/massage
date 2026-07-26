@@ -941,6 +941,36 @@ p {
   width: 100%;
 }
 
+.gift-card-success {
+  background: var(--mist);
+  border: 1px solid rgba(82, 111, 95, 0.28);
+  border-radius: 8px;
+  display: none;
+  gap: 10px;
+  padding: 18px;
+}
+
+.gift-card-success[style*="block"],
+.gift-card-success[style*="display: block"] {
+  display: grid !important;
+}
+
+.gift-card-success strong {
+  color: var(--sage-dark);
+  font-size: 18px;
+}
+
+.gift-card-success p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.gift-card-success .button {
+  justify-self: start;
+  margin-top: 4px;
+}
+
 .book-section {
   background:
     linear-gradient(135deg, rgba(220, 229, 219, 0.95), rgba(255, 250, 242, 0.7)),

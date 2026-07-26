@@ -249,6 +249,28 @@ giftCardForm?.addEventListener("submit", (event) => {
     return;
   }
   giftCardForm.action = endpoint;
+  if (giftCardStatus) {
+    giftCardStatus.textContent = "Submitting gift card deposit...";
+  }
+});
+
+document.addEventListener("basinjsFormSuccess", (event) => {
+  if (event.detail?.form !== giftCardForm) {
+    return;
+  }
+  if (giftCardStatus) {
+    giftCardStatus.textContent = "Gift card deposit submitted. Gianna will confirm your appointment.";
+  }
+});
+
+document.addEventListener("basinjsFormError", (event) => {
+  if (event.detail?.form !== giftCardForm) {
+    return;
+  }
+  if (giftCardStatus) {
+    giftCardStatus.textContent =
+      "Gift card submission could not be completed. Please try again or contact Gianna on WhatsApp.";
+  }
 });
 
 serviceChoices.forEach((choice) => {

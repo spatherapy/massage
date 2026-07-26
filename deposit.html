@@ -110,6 +110,9 @@
               enctype="multipart/form-data"
               data-gift-card-form
               data-gift-card-endpoint="https://usebasin.com/f/cf07d4babd3d"
+              data-basin-form
+              data-basin-success-action="render"
+              data-basin-success-id="gift-card-success"
             >
               <label>
                 Name on booking
@@ -154,6 +157,14 @@
                 Gift card deposits are submitted securely to Gianna's private dashboard.
               </p>
             </form>
+            <div class="gift-card-success" id="gift-card-success">
+              <strong>Gift card deposit submitted.</strong>
+              <p>
+                Gianna has received your gift card details in the private dashboard. Keep your card and receipt until your
+                appointment is confirmed.
+              </p>
+              <a class="button secondary" href="index.html#book">Back to Booking</a>
+            </div>
           </div>
           <div class="payment-proof-form">
             <h2>After sending deposit</h2>
@@ -178,6 +189,7 @@
       <span>WhatsApp</span>
     </a>
 
+    <script src="https://js.usebasin.com/v2.10.1.min.js" defer></script>
     <script src="script.js"></script>
   </body>
 </html>
