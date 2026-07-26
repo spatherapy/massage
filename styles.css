@@ -707,6 +707,43 @@ p {
   margin: 0;
 }
 
+.payment-methods {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 6px;
+}
+
+.payment-method {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  min-height: 42px;
+  padding: 10px 16px;
+}
+
+.payment-method.is-selected {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.payment-section {
+  display: none;
+}
+
+.payment-section.is-visible {
+  display: grid;
+  gap: 16px;
+}
+
 .coin-grid {
   display: grid;
   gap: 10px;
@@ -843,6 +880,65 @@ p {
   font-size: 13px;
   line-height: 1.5;
   margin: 0;
+}
+
+.gift-card-intro {
+  background: var(--paper);
+  border: 1px dashed rgba(34, 48, 41, 0.28);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.gift-card-intro span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.gift-card-intro strong {
+  font-size: 18px;
+}
+
+.gift-card-intro p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.gift-card-form {
+  display: grid;
+  gap: 14px;
+}
+
+.gift-card-form label {
+  color: var(--muted);
+  display: grid;
+  font-size: 13px;
+  font-weight: 850;
+  gap: 8px;
+}
+
+.gift-card-form input,
+.gift-card-form select {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: inherit;
+  min-height: 46px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.gift-card-form input[type="file"] {
+  min-height: auto;
+}
+
+.gift-card-form .button {
+  width: 100%;
 }
 
 .book-section {

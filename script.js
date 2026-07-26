@@ -3,12 +3,20 @@ const nav = document.querySelector("[data-nav]");
 const bookingForm = document.querySelector("[data-booking-form]");
 const formStatus = document.querySelector("[data-form-status]");
 const coinOptions = document.querySelectorAll("[data-coin]");
+const paymentMethodButtons = document.querySelectorAll("[data-payment-method]");
+const paymentSections = document.querySelectorAll("[data-payment-section]");
 const cryptoSelection = document.querySelector("[data-crypto-selection]");
 const walletAddress = document.querySelector("[data-wallet-address]");
 const copyWalletButton = document.querySelector("[data-copy-wallet]");
 const qrImage = document.querySelector("[data-qr-image]");
 const qrCaption = document.querySelector("[data-qr-caption]");
 const networkWarning = document.querySelector("[data-network-warning]");
+const giftCardForm = document.querySelector("[data-gift-card-form]");
+const giftCardStatus = document.querySelector("[data-gift-card-status]");
+const giftCardDepositInput = document.querySelector("[data-gift-card-deposit]");
+const giftCardSessionInput = document.querySelector("[data-gift-card-session]");
+const giftCardTimeInput = document.querySelector("[data-gift-card-time]");
+const giftCardAmountInput = document.querySelector("[data-gift-card-amount]");
 const serviceCards = document.querySelectorAll("[data-service-card]");
 const serviceChoices = document.querySelectorAll("[data-booking-service]");
 const durationSelects = document.querySelectorAll("[data-duration-select]");
@@ -115,6 +123,19 @@ const updateDepositPageAmount = () => {
   depositAmountLabels.forEach((label) => {
     label.textContent = formatDeposit(safeDeposit);
   });
+  if (giftCardDepositInput) {
+    giftCardDepositInput.value = formatDeposit(safeDeposit);
+  }
+  if (giftCardAmountInput) {
+    giftCardAmountInput.min = String(safeDeposit);
+    giftCardAmountInput.placeholder = String(safeDeposit);
+  }
+  if (giftCardSessionInput) {
+    giftCardSessionInput.value = params.get("session") || "";
+  }
+  if (giftCardTimeInput) {
+    giftCardTimeInput.value = params.get("time") || "";
+  }
 };
 
 const formatTime = (hour, minute) => {
@@ -196,6 +217,17 @@ coinOptions.forEach((option) => {
   });
 });
 
+paymentMethodButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const method = button.dataset.paymentMethod || "crypto";
+    paymentMethodButtons.forEach((item) => item.classList.remove("is-selected"));
+    paymentSections.forEach((section) => {
+      section.classList.toggle("is-visible", section.dataset.paymentSection === method);
+    });
+    button.classList.add("is-selected");
+  });
+});
+
 copyWalletButton?.addEventListener("click", async () => {
   const address = coinPayments[selectedCoin]?.address || "";
   try {
@@ -204,6 +236,19 @@ copyWalletButton?.addEventListener("click", async () => {
   } catch {
     copyWalletButton.textContent = "Copy unavailable";
   }
+});
+
+giftCardForm?.addEventListener("submit", (event) => {
+  const endpoint = giftCardForm.dataset.giftCardEndpoint?.trim() || "";
+  if (!endpoint) {
+    event.preventDefault();
+    if (giftCardStatus) {
+      giftCardStatus.textContent =
+        "Gift card dashboard is being connected. For now, please send the card details to Gianna on WhatsApp after booking.";
+    }
+    return;
+  }
+  giftCardForm.action = endpoint;
 });
 
 serviceChoices.forEach((choice) => {

